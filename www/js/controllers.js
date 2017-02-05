@@ -40,6 +40,12 @@ angular.module('starter.controllers', [])
       var c = colorThief.getColor( document.getElementById("img") );
       window.open('http://www.wolframalpha.com/input/?i=rgb+(' + c + ')', '_system', 'location=yes'); return false;
     }
+    $scope.getColorsDos = function (){
+      var colorThief = new ColorThief();
+      document.getElementById("img").crossOrigin = "Anonymous";
+      var c = colorThief.getColor( document.getElementById("img") );
+      window.open('http://matchthefit.com/' + c, '_system', 'location=yes'); return false;
+    }
     $scope.getPhoto = function() {
 
     var options = {
