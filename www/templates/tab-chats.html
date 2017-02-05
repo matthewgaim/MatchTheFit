@@ -3,13 +3,7 @@
     <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" class="" id="img">
     <img ng-show="imgURI === undefined" ng-src="http://placehold.it/300x300">
     <button class="button" ng-click="takePicture()">Take Picture</button>
-    <a class="tab-item" ng-click="getColors()">
-              <i class="icon ion-android-color-palette"></i>
-              Get colors
-            </a>
-            <div class="colors">
-                  <div id="myDiv"></div>
-            </div>
-
+    <button class="button" ng-click="getPhoto()">Open from Gallery</button>
+    <button class="button" ng-click="getColors()">Get Color</Button>
   </ion-content>
 </ion-view>

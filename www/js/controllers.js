@@ -38,17 +38,36 @@ angular.module('starter.controllers', [])
       var colorThief = new ColorThief();
       document.getElementById("img").crossOrigin = "Anonymous";
       var c = colorThief.getColor( document.getElementById("img") );
-      alert(c);
-
+      window.open('http://www.google.com/search?q=' + c, '_system', 'location=yes'); return false;
     }
-})
+    $scope.getPhoto = function() {
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+    var options = {
+            quality: 75,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            mediaType: Camera.MediaType.ALLMEDIA,
+            targetWidth: 300,
+            targetHeight: 300,
+            saveToPhotoAlbum: false
+        };
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+            //Here you will be getting image data
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+
+      };
+    })
+
+  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+    $scope.chat = Chats.get($stateParams.chatId);
+  })
+
+  .controller('AccountCtrl', function($scope) {
+    $scope.settings = {
+      enableFriends: true
+    };
+  });
