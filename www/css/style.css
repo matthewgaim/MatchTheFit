@@ -1,1 +1,16 @@
 /* Empty. Add your own CSS if you like */
+.colors {
+	text-align: center;
+}
+.color {
+	width: 25%;
+	display: inline-block;
+	height: 50px;
+	margin: auto;
+	text-align: center;
+}
+#mydiv {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+        }

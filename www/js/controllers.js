@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera) {
+.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -29,9 +29,17 @@ angular.module('starter.controllers', [])
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
             $scope.imgURI = "data:image/jpeg;base64," + imageData;
+
         }, function(err) {
             // An error occured. Show a message to the user
         });
+    }
+    $scope.getColors = function (){
+      var colorThief = new ColorThief();
+      document.getElementById("img").crossOrigin = "Anonymous";
+      var c = colorThief.getColor( document.getElementById("img") );
+      alert(c);
+
     }
 })
 
