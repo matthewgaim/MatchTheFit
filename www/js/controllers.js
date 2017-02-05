@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
       var colorThief = new ColorThief();
       document.getElementById("img").crossOrigin = "Anonymous";
       var c = colorThief.getColor( document.getElementById("img") );
-      window.open('http://www.google.com/search?q=' + c, '_system', 'location=yes'); return false;
+      window.open('http://matchthefit.com/' + c, '_system', 'location=yes'); return false;
     }
     $scope.getPhoto = function() {
 
