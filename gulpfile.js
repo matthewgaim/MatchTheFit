@@ -6,11 +6,25 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var asciiJSON = require('ascii-json');
+var ParseHub = require("parsehub");
+var request = require('request');
+var fs = require('fs');
 
-
-var paths = {
-  sass: ['./scss/**/*.scss']
-};
+request({
+  uri: 'https://www.parsehub.com/api/v2/projects/toEosfezbLtw/last_ready_run/data',
+  method: 'GET',
+  gzip: true,
+  qs: {
+    api_key: "tLXBAdzZLcOD",
+    format: "json"
+  }
+}, function(err, resp, body) {
+  fs.writeFile('www/js/clothes.json', body, function (err) {
+    if (err) return console.log(err);
+    // console.log(body);
+  });
+});
 
 gulp.task('default', ['sass']);
 
@@ -48,5 +62,6 @@ gulp.task('git-check', function(done) {
     );
     process.exit(1);
   }
+
   done();
 });

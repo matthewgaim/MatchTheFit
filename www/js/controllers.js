@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief) {
+.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief,$http) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -11,16 +11,41 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+  // var api = new ParseHub('tLXBAdzZLcOD');
+  // api.getAllJobs(function(err, jobs)
+  // {
+  //   console.log(jobs);
+  // });
+  function readTextFile(file)
+  {
+      var rawFile = new XMLHttpRequest();
+      rawFile.open("GET", file, false);
+      rawFile.onreadystatechange = function ()
+      {
+          if(rawFile.readyState === 4)
+          {
+              if(rawFile.status === 200 || rawFile.status == 0)
+              {
+                  var allText = rawFile.responseText;
+                  console.log(allText);
+              }
+          }
+      }
+      rawFile.send(null);
+  }
+  var scrapedStuff = readTextFile("js/clothes.json");
+  $http.get("js/clothes.json")
+    .success(function(response) {
+      $scope.myDatas = response.selection1;
+      console.log($scope.myDatas);
+    });
+
   $scope.takePicture = function() {
         var options = {
             quality : 75,
             destinationType : Camera.DestinationType.DATA_URL,
             sourceType : Camera.PictureSourceType.CAMERA,
-            allowEdit : false,
+            allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
             targetWidth: 300,
             targetHeight: 300,
@@ -31,39 +56,43 @@ angular.module('starter.controllers', [])
             $scope.imgURI = "data:image/jpeg;base64," + imageData;
 
         }, function(err) {
-            // An error occured. Show a message to the user
+            alert(err);
         });
     }
+
+    //Get color via WolfRam
     $scope.getColors = function (){
       var colorThief = new ColorThief();
       document.getElementById("img").crossOrigin = "Anonymous";
       var c = colorThief.getColor( document.getElementById("img") );
-      window.open('http://www.wolframalpha.com/input/?i=rgb+(' + c + ')', '_system', 'location=yes'); return false;
+      // window.open('http://www.wolframalpha.com/input/?i=rgb+(' + c + ')', '_system', 'location=yes'); return false;
+      alert(c);
     }
-    $scope.getColorsDos = function (){
+    //Sending color to MatchTheFit site
+    $scope.toWebsite = function (){
       var colorThief = new ColorThief();
       document.getElementById("img").crossOrigin = "Anonymous";
       var c = colorThief.getColor( document.getElementById("img") );
-      window.open('http://matchthefit.com/' + c, '_system', 'location=yes'); return false;
     }
     $scope.getPhoto = function() {
+      var options = {
+              quality: 75,
+              destinationType: Camera.DestinationType.DATA_URL,
+              sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+              mediaType: Camera.MediaType.ALLMEDIA,
+              targetWidth: 300,
+              allowEdit : true,
+              targetHeight: 300,
+              saveToPhotoAlbum: false
+          };
 
-    var options = {
-            quality: 75,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
-            mediaType: Camera.MediaType.ALLMEDIA,
-            targetWidth: 300,
-            targetHeight: 300,
-            saveToPhotoAlbum: false
-        };
-
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
-            //Here you will be getting image data
-        }, function(err) {
-            // An error occured. Show a message to the user
-        });
+          $cordovaCamera.getPicture(options).then(function(imageData) {
+              $scope.imgURI = "data:image/jpeg;base64," + imageData;
+              document.getElementById("img").src = imageData;
+              //Here you will be getting image data
+          }, function(err) {
+              alert(err);
+          });
 
       };
     })

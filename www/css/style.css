@@ -1,16 +1,5 @@
 /* Empty. Add your own CSS if you like */
-.colors {
-	text-align: center;
+.pics{
+	height:50px;
+	width:50px;
 }
-.color {
-	width: 25%;
-	display: inline-block;
-	height: 50px;
-	margin: auto;
-	text-align: center;
-}
-#mydiv {
-            width: 100px;
-            height: 100px;
-            border: 1px solid #000;
-        }
