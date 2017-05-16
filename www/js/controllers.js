@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief,$http) {
+.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief,$http,$httpParamSerializerJQLike) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -16,29 +16,36 @@ angular.module('starter.controllers', [])
   // {
   //   console.log(jobs);
   // });
-  function readTextFile(file)
-  {
-      var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", file, false);
-      rawFile.onreadystatechange = function ()
-      {
-          if(rawFile.readyState === 4)
-          {
-              if(rawFile.status === 200 || rawFile.status == 0)
-              {
-                  var allText = rawFile.responseText;
-                  console.log(allText);
-              }
-          }
-      }
-      rawFile.send(null);
+
+  $scope.scrapeJob = function(){
+    var form = {
+      url: "https://www.parsehub.com/api/v2/projects/toEosfezbLtw/run",
+      method: "POST",
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data:'',
+      params: {
+        api_key: "tLXBAdzZLcOD",
+        start_url: "https://www.google.com/search?output=search&tbm=shop&q=light+orange+shirt+mens",
+      },
+    }
+    $http(form).then(function successCallback(response) {
+      console.log(response);
+      $scope.runToken = response.data.run_token;
+      $scope.startingURL = response.data.start_url;
+      console.log($scope.runToken);
+      console.log($scope.startingURL);
+    }, function errorCallback(response) {
+      console.log(response)
+    })
   }
-  var scrapedStuff = readTextFile("js/clothes.json");
-  $http.get("js/clothes.json")
-    .success(function(response) {
-      $scope.myDatas = response.selection1;
-      console.log($scope.myDatas);
-    });
+
+  // $http.get("js/clothes.json")
+  //   .success(function(response) {
+  //     $scope.myDatas = response.selection1;
+  //     console.log($scope.myDatas);
+  //   });
 
   $scope.takePicture = function() {
         var options = {

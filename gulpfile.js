@@ -11,20 +11,35 @@ var ParseHub = require("parsehub");
 var request = require('request');
 var fs = require('fs');
 
-request({
-  uri: 'https://www.parsehub.com/api/v2/projects/toEosfezbLtw/last_ready_run/data',
-  method: 'GET',
-  gzip: true,
-  qs: {
-    api_key: "tLXBAdzZLcOD",
-    format: "json"
-  }
-}, function(err, resp, body) {
-  fs.writeFile('www/js/clothes.json', body, function (err) {
-    if (err) return console.log(err);
-    // console.log(body);
-  });
-});
+//STARTS A PROJECT
+// request({
+//   uri: 'https://www.parsehub.com/api/v2/projects/toEosfezbLtw/run',
+//   method: 'POST',
+//   form: {
+//     api_key: "tLXBAdzZLcOD",
+//     start_url: "https://www.google.com/search?output=search&tbm=shop&q=light+orange+shirt+mens",
+//     send_email: "1"
+//   }
+// }, function(err, resp, body) {
+//   console.log(body);
+// });
+
+//GETS PROJECT DATA
+// request({
+//   uri: 'https://www.parsehub.com/api/v2/projects/toEosfezbLtw/last_ready_run/data',
+//   method: 'GET',
+//   gzip: true,
+//   qs: {
+//     api_key: "tLXBAdzZLcOD",
+//     format: "json"
+//   }
+// }, function(err, resp, body) {
+//   fs.writeFile('www/js/clothes.json', body, function (err) {
+//     if (err) return console.log(err);
+//     // console.log(body);
+//   });
+// });
+
 
 gulp.task('default', ['sass']);
 

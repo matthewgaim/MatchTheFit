@@ -1,4 +1,10 @@
 {
   "name": "MatchTheFit",
-  "app_id": "8b80f959"
+  "app_id": "8b80f959",
+  "proxies": [
+    {
+      "path": "/#/tab/chats",
+      "proxyUrl": "https://www.parsehub.com/api/v2/"
+    }
+  ]
 }
