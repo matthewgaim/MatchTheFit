@@ -2,7 +2,9 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief,$http,$httpParamSerializerJQLike) {
+.controller('ChatsCtrl', function($scope, Chats,$cordovaCamera,$colorThief,$http, $httpParamSerializerJQLike) {
+  $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -17,19 +19,18 @@ angular.module('starter.controllers', [])
   //   console.log(jobs);
   // });
 
-  $scope.scrapeJob = function(){
+  $scope.scrapeJob = function(color){
     var form = {
       url: "https://www.parsehub.com/api/v2/projects/toEosfezbLtw/run",
       method: "POST",
       headers:{
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data:'',
-      params: {
-        api_key: "tLXBAdzZLcOD",
-        start_url: "https://www.google.com/search?output=search&tbm=shop&q=light+orange+shirt+mens",
-      },
-    }
+      data: $httpParamSerializerJQLike({
+        'api_key': "tLXBAdzZLcOD",
+        'start_url': "https://www.google.com/search?output=search&tbm=shop&q=" + color + " shirt",
+      }),
+    };
     $http(form).then(function successCallback(response) {
       console.log(response);
       $scope.runToken = response.data.run_token;
@@ -37,8 +38,16 @@ angular.module('starter.controllers', [])
       console.log($scope.runToken);
       console.log($scope.startingURL);
     }, function errorCallback(response) {
-      console.log(response)
-    })
+      console.log(response);
+    });
+    // var scrape = new XMLHttpRequest();
+    // scrape.open("POST", "https://www.parsehub.com/api/v2/projects/toEosfezbLtw/run?api_key=tLXBAdzZLcOD", true);
+    // scrape.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // scrape.send({
+    //   start_url: "https://www.google.com/search?output=search&tbm=shop&q=light%20orange%20shirt%20mens",
+    // });
+
+
   }
 
   // $http.get("js/clothes.json")
@@ -67,20 +76,27 @@ angular.module('starter.controllers', [])
         });
     }
 
+    $scope.rgbToHex = function(r,g,b){
+        var bin = r << 16 | g << 8 | b;
+        return (function(h){
+            return new Array(7-h.length).join("0")+h
+        })(bin.toString(16).toUpperCase())
+    }
+
+
     //Get color via WolfRam
     $scope.getColors = function (){
       var colorThief = new ColorThief();
       document.getElementById("img").crossOrigin = "Anonymous";
       var c = colorThief.getColor( document.getElementById("img") );
-      // window.open('http://www.wolframalpha.com/input/?i=rgb+(' + c + ')', '_system', 'location=yes'); return false;
       alert(c);
+      var second = $scope.rgbToHex(c[0], c[1], c[2]);
+      alert(second);
+      $scope.color  = ntc.name(second);
+      alert($scope.color[1]);
+      $scope.scrapeJob($scope.color[1]);
     }
     //Sending color to MatchTheFit site
-    $scope.toWebsite = function (){
-      var colorThief = new ColorThief();
-      document.getElementById("img").crossOrigin = "Anonymous";
-      var c = colorThief.getColor( document.getElementById("img") );
-    }
     $scope.getPhoto = function() {
       var options = {
               quality: 75,

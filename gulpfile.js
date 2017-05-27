@@ -10,6 +10,8 @@ var asciiJSON = require('ascii-json');
 var ParseHub = require("parsehub");
 var request = require('request');
 var fs = require('fs');
+var rgbHex = require('rgb-hex');
+
 
 //STARTS A PROJECT
 // request({
