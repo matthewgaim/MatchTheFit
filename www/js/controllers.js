@@ -18,7 +18,6 @@ angular.module('starter.controllers', [])
   // {
   //   console.log(jobs);
   // });
-
   $scope.scrapeJob = function(color){
     var form = {
       url: "https://www.parsehub.com/api/v2/projects/toEosfezbLtw/run",
@@ -28,7 +27,7 @@ angular.module('starter.controllers', [])
       },
       data: $httpParamSerializerJQLike({
         'api_key': "tLXBAdzZLcOD",
-        'start_url': "https://www.google.com/search?output=search&tbm=shop&q=" + color + " shirt",
+        'start_url': "https://www.google.com/search?output=search&tbm=shop&q=" + $scope.color[1] + " shirt".replace(" ", "+"),
       }),
     };
     $http(form).then(function successCallback(response) {
@@ -37,6 +36,7 @@ angular.module('starter.controllers', [])
       $scope.startingURL = response.data.start_url;
       console.log($scope.runToken);
       console.log($scope.startingURL);
+
     }, function errorCallback(response) {
       console.log(response);
     });
@@ -49,12 +49,23 @@ angular.module('starter.controllers', [])
 
 
   }
-
-  // $http.get("js/clothes.json")
-  //   .success(function(response) {
-  //     $scope.myDatas = response.selection1;
-  //     console.log($scope.myDatas);
-  //   });
+  $scope.readFile = function(){
+    var params = {
+      // url: "https://www.parsehub.com/api/v2/runs/tRk3uU8LBV57/data?api_key=tLXBAdzZLcOD",
+      method: "GET",
+    };
+    $http.get("https://www.parsehub.com/api/v2/runs/" + $scope.runToken + "/data?api_key=tLXBAdzZLcOD", params).then(function successCallback(response){
+      console.log(response.data.selection1);
+      $scope.clothesList = response.data.selection1;
+    }, function errorCallback(response){
+      alert(response.status);
+    });
+    // $http.get("js/clothes.json")
+    //   .success(function(response) {
+    //     $scope.myDatas = response.selection1;
+    //     console.log($scope.myDatas);
+    //   });
+  }
 
   $scope.takePicture = function() {
         var options = {

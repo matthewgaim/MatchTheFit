@@ -5,11 +5,11 @@
     <button class="button" ng-click="takePicture()">Take Picture</button>
     <button class="button" ng-click="getPhoto()">Open from Gallery</button>
     <button class="button" ng-click="getColors()">Get Color</Button>
-    <button class="button" ng-click="scrapeJob()">Scrape Job</Button>
+    <button class="button" ng-click="readFile()">Scrape Job</Button>
       <h3>Color: {{color[1]}}</h3>
       <h4>{{runToken}}</h4>
       <h4>{{startingURL}}</h4>
-      <div ng-repeat = "i in myDatas">
+      <div ng-repeat = "i in clothesList">
         <a href="{{i.img_url}}"><img ng-src="{{i.img}}" class="pics"></a>
         <h3>{{i.name}}</h3>
         <h5>{{i.price}}</h5>
